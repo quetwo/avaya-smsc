@@ -1,2 +1,5 @@
 *.iml
 .idea
+/db/secrets.txt
+/frontend/secrets.txt
+/proxy/logs/*.log
