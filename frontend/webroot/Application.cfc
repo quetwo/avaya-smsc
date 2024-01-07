@@ -6,15 +6,13 @@ component
         class: 'com.mysql.cj.jdbc.Driver'
         , bundleName: 'com.mysql.cj'
         , bundleVersion: '8.1.0'
-        , connectionString: 'jdbc:mysql://' & server.system.environment.DB_SERVER &':3306/'
-    & server.system.environment.DB_SCHEMA & '?characterEncoding=UTF-8&serverTimezone=Etc/UTC&autoReconnect=true&maxReconnects=3&allowMultiQueries=true&enabledTLSProtocols=TLSv1.2'
+        , connectionString: 'jdbc:mysql://' & server.system.environment.DB_SERVER &':3306/' & server.system.environment.DB_SCHEMA & '?characterEncoding=UTF-8&serverTimezone=Etc/UTC&autoReconnect=true&maxReconnects=3&allowMultiQueries=true&enabledTLSProtocols=TLSv1.2'
         , username: server.system.environment.DB_USER
         , password: server.system.environment.DB_PASS
         , connectionLimit:100 // default:-1
         , alwaysSetTimeout:true // default: false
         , validate:false // default: false
     };
-
 
     this.ormenabled = true;
     this.ormsettings =
