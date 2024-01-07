@@ -29,6 +29,7 @@ component
     function onApplicationStart()
     {
         RestInitApplication(expandPath('rest'), '/sms', false, server.system.environment.LUCEE_ADMIN_PASSWORD);
+        application.configManager = createObject("component","cf.configManager");
     }
 
     function onSessionStart()
