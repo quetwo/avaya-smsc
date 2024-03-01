@@ -1,6 +1,6 @@
 component
 {
-    this.name = "avaya-smsc";
+    this.name = "smsc";
     this.datasource =
     {
         class: 'com.mysql.cj.jdbc.Driver'
