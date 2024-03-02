@@ -25,6 +25,8 @@
     <main class="d-flex flex-nowrap">
 
         <sms-toolbar id="smsToolbar" class="d-flex flex-nowrap"></sms-toolbar>
+        <sms-messagelist id="smsMessageList" class="d-flex flex-nowrap"></sms-messagelist>
+
         <div class="b-divider b-vr"></div>
 
     </main>

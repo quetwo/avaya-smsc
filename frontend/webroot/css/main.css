@@ -32,6 +32,32 @@ main
     }
 }
 
+.listArea
+{
+    max-width: 340px;
+    min-width: 280px;
+}
+
+.scrollarea
+{
+    overflow-y: auto;
+}
+
+.search-panel
+{
+    .form-control {
+        position: relative;
+        padding-left: 35px;
+    }
+
+    .btn {
+        position: absolute;
+        left: 12px;
+        top: 8px;
+        z-index: 5;
+    }
+}
+
 .b-divider {
     width: 100%;
     height: 3rem;
