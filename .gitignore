@@ -4,3 +4,5 @@
 /frontend/secrets.txt
 /proxy/logs/*.log
 /templates/
+/frontend/webroot/assets/
+/frontend/webroot/index2.html
