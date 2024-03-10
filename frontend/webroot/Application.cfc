@@ -17,7 +17,7 @@ component
     this.ormenabled = true;
     this.ormsettings =
     {
-        logsql: true,
+        logSQL: true,
         dbcreate: "update",
         cfclocation: "db"
     };
