@@ -1,3 +1,4 @@
+// language=HTML
 const messageListHTML = `
 
     <div class="d-flex flex-column flex-shrink-0 bg-body-secondary listArea">
@@ -16,22 +17,7 @@ const messageListHTML = `
         </div>
         
         <!--- start list of messages here --->
-        <div class="list-group list-group-flush scrollarea">
-            <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm">
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                  <strong class="mb-1">List group item heading</strong>
-                  <small>Wed</small>
-                </div>
-                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-            </a>
-            
-            <sms-messageListItem></sms-messageListItem>
-            <sms-messageListItem></sms-messageListItem>
-            <sms-messageListItem></sms-messageListItem>
-            <sms-messageListItem></sms-messageListItem>
-            <sms-messageListItem></sms-messageListItem>
-
-        </div>
+        <div class="list-group list-group-flush scrollarea" id="messageListGroup"></div>
         
     </div>
 
@@ -47,6 +33,37 @@ export default class smsMessageList extends HTMLElement
     connectedCallback()
     {
         this.innerHTML = messageListHTML;
+        this.getTopicList().then((result) =>
+        {
+            // parse the results from the message list
+            const finalPos = document.getElementById("messageListGroup");
+            // clear old list
+            while (finalPos.firstChild)
+            {
+                finalPos.removeChild(finalPos.lastChild);
+            }
+            // add items from server to the message topic list
+            for (const resultItem in result)
+            {
+                let myNewTopic = document.createElement("sms-messageListItem");
+                myNewTopic.body = result[resultItem].body;
+                myNewTopic.datePosted = new Date(result[resultItem].datePosted);
+                myNewTopic.phoneNumber = result[resultItem].foreignNumber;
+                myNewTopic.isRead = result[resultItem].isRead;
+                finalPos.appendChild(myNewTopic);
+            }
+
+        });
+    }
+
+    getTopicList = async () =>
+    {
+        const response = await fetch("/rest/sms/messages");
+        if (response.ok)
+        {
+            return response.json();
+        }
+        throw new Error("Error getting message List");
     }
 
 }
