@@ -28,13 +28,28 @@ component
 
     function onApplicationStart()
     {
-        RestInitApplication(expandPath('rest'), '/sms', false, server.system.environment.LUCEE_ADMIN_PASSWORD);
+        RestInitApplication(expandPath('/rest'), '/sms', false, server.system.environment.LUCEE_ADMIN_PASSWORD);
         application.configManager = createObject("component","cf.configManager");
+        application.publicPages = "/test.cfm,/auth/callback.cfm";
     }
 
     function onSessionStart()
     {
+        session.user = createObject("component","auth.userAuth");
+        session.user.init();
+    }
 
+    boolean function onRequestStart(required string TargetPage)
+    {
+        writeDump(var=arguments.TargetPage, output="console");
+        writeDump(var=session.user.isLoggedIn(), label="LoggedIn", output="console");
+
+        if (listFindNoCase(application.publicPages, arguments.TargetPage) EQ 0)
+        {
+            session.user.forceLogin();
+        }
+
+        return true;
     }
 
 }
