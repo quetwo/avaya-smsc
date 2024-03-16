@@ -9,17 +9,14 @@
     <cfproperty name="email">
     <cfproperty name="uuid">
 
-    <!--- The following settings will be provided by MSU.  You will need to set them on a per-application
-          basis --->
+    <!--- The following settings can be found by your oAuth provider.  They can be set in the DB --->
 
-    <cfset oauth.clientID = server.system.environment.OKTA_CLIENT_ID>
-    <cfset oauth.secret = server.system.environment.OKTA_SECRET>
-    <cfset oauth.callback = server.system.environment.OKTA_CALLBACK>
-
-    <!--- It is very doubtful that you will need to touch the following three settings.  --->
-    <cfset oauth.loginPage = "https://" & server.system.environment.OKTA_DOMAIN & "/authorize">
-    <cfset oauth.tokenPage = "https://" & server.system.environment.OKTA_DOMAIN & "/oauth/token">
-    <cfset oauth.userInfoPage = "https://" & server.system.environment.OKTA_DOMAIN & "/userinfo">
+    <cfset oauth.clientID = application.configManager.get("OKTA_CLIENT_ID")>
+    <cfset oauth.secret = application.configManager.getEncrypted("OKTA_SECRET")>
+    <cfset oauth.callback = application.configManager.get("OKTA_CALLBACK")>
+    <cfset oauth.loginPage = application.configManager.get("OKTA_LOGINURL")>
+    <cfset oauth.tokenPage = application.configManager.get("OKTA_TOKENURL")>
+    <cfset oauth.userInfoPage = application.configManager.get("OKTA_USERINFO")>
 
     <!--- other private variables --->
     <cfset accessToken = "">
@@ -40,7 +37,6 @@
             <cflocation url="/login.cfm" addtoken="false">
         </cfif>
     </cffunction>
-
 
 
     <cffunction name="oAuthLogin" access="public" returntype="void" output="false">
