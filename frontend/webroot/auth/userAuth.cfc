@@ -1,22 +1,4 @@
-<!---
-    Copyright 2013, Michigan State University, Board of Trustees
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-    Released by Nick Kwiatkowski (nk@msu.edu), as an acting agent of MSU
---->
-
-<cfcomponent hint="OAuth Login Management Object">
+<cfcomponent hint="Login Management Object">
 
     <!--- public properties --->
     <cfproperty name="loggedIn">
@@ -25,8 +7,6 @@
     <!--- user properties, populated after login --->
     <cfproperty name="name">
     <cfproperty name="email">
-    <cfproperty name="first_name">
-    <cfproperty name="last_name">
     <cfproperty name="uuid">
 
     <!--- The following settings will be provided by MSU.  You will need to set them on a per-application
@@ -55,6 +35,15 @@
     </cffunction>
 
     <cffunction name="forceLogin" access="public" returntype="void" output="false">
+        <cfif NOT this.loggedIn>
+            <!--- redirect to login page --->
+            <cflocation url="/login.cfm" addtoken="false">
+        </cfif>
+    </cffunction>
+
+
+
+    <cffunction name="oAuthLogin" access="public" returntype="void" output="false">
         <cfif NOT this.loggedIn>
             <!--- redirect to login page --->
             <cflocation url="#oauth.loginPage#?client_id=#oauth.clientID#&redirect_uri=#oauth.callback#&state=#this.state#&response_type=code&scope=openid%20profile%20email" addtoken="false">

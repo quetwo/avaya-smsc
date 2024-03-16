@@ -1,4 +1,6 @@
 <cfscript>
+    // login protected site
+    session.user.forceLogin();
     pageTitle = createObject("component","cf.configManager").get("siteName");
 </cfscript>
 <!DOCTYPE html>

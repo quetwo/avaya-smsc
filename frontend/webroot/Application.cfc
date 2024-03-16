@@ -39,14 +39,4 @@ component
         session.user.init();
     }
 
-    boolean function onRequestStart(required string TargetPage)
-    {
-        // Determine if we are hitting a public page OR if we need to go to the login processors.
-        if (listFindNoCase(application.publicPages, arguments.TargetPage) EQ 0)
-        {
-            session.user.forceLogin();
-        }
-        return true;
-    }
-
 }

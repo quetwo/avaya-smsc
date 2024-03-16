@@ -34,22 +34,22 @@
                                         <h3>Welcome!</h3>
                                         <p class="text-muted">Sign in to continue to <cfoutput>#application.configManager.get("siteName")#</cfoutput></p>
                                     </div>
-                                    <form action="index.html">
+                                    <form action="/auth/localLogin.cfm" method="post">
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username" placeholder="Enter username">
+                                            <input type="text" name="username" class="form-control" id="username" placeholder="Enter username">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="userpassword" class="form-label">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" class="form-control pe-5" placeholder="Enter Password" id="password-input">
+                                                <input type="password" name="pwd" class="form-control pe-5" placeholder="Enter Password" id="password-input">
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                         </div>
 
                                         <div class="form-check form-check-info fs-16">
-                                            <input class="form-check-input" type="checkbox" id="remember-check">
+                                            <input class="form-check-input" name="remember" type="checkbox" id="remember-check">
                                             <label class="form-check-label fs-14" for="remember-check">
                                                 Remember me
                                             </label>
@@ -63,14 +63,9 @@
                                                 <h5 class="fs-14 mb-4 title">Sign in with</h5>
                                             </div>
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <div>
-                                                        <button type="button" class="btn btn-soft-info w-100"><i class="mdi mdi-facebook"></i> Facebook</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div>
-                                                        <button type="button" class="btn btn-soft-danger w-100"><i class="mdi mdi-google"></i> Google</button>
+                                                        <button type="button" class="btn btn-soft-primary w-100" onclick="location.href='/auth/oAuthLogin.cfm'"><i class="mdi mdi-login"></i> OKTA</button>
                                                     </div>
                                                 </div>
                                             </div>
