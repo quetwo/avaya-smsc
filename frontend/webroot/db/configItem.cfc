@@ -6,4 +6,14 @@ component persistent="true" table="appConfig" cacheUse="nonstrict-read-write"
     property name="name" fieldtype="column" ormType="string" column="configItem";
     property name="value" fieldtype="column" ormType="string" column="configValue";
 
+    public function setEncryptedValue(value)
+    {
+        this.setvalue(encrypt(value,application.applicationname, "CFMX_COMPAT","Base64"));
+    }
+
+    public function getEncryptedValue()
+    {
+        return decrypt(this.getvalue(), application.applicationname, "CFMX_COMPAT","Base64");
+    }
+
 }
