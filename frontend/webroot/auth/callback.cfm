@@ -1,9 +1,9 @@
 <cfdump var="#url#">
 
 <cfif (isDefined("url.code") AND (url.state EQ session.user.state))>
-<!--- we are assuming that we are getting this callback from MSU.  --->
+<!--- we are assuming that we are getting this callback from Okta.  --->
     <cfif session.user.processLogin(url.state, url.code)>
-        <cflocation url="index.cfm" addtoken="false">
+        <cflocation url="/main.cfm" addtoken="false">
     </cfif>
 </cfif>
 

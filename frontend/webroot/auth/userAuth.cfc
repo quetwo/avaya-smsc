@@ -50,8 +50,6 @@
         <cfset this.loggedIn = false>
         <cfset this.name = "">
         <cfset this.email = "">
-        <cfset this.first_name = "">
-        <cfset this.last_name = "">
         <cfset this.uuid = "">
         <cfset this.state = createUUID()>
     </cffunction>
@@ -59,7 +57,7 @@
     <cffunction name="forceLogin" access="public" returntype="void" output="false">
         <cfif NOT this.loggedIn>
             <!--- redirect to login page --->
-            <cflocation url="#oauth.loginPage#?client_id=#oauth.clientID#&redirect_uri=#oauth.callback#&state=#this.state#&response_type=code&scope=openid" addtoken="false">
+            <cflocation url="#oauth.loginPage#?client_id=#oauth.clientID#&redirect_uri=#oauth.callback#&state=#this.state#&response_type=code&scope=openid%20profile%20email" addtoken="false">
         </cfif>
     </cffunction>
 
@@ -76,8 +74,6 @@
             <cfhttpparam type="FormField" name="code" value="#arguments.code#">
         </cfhttp>
 
-        <cfdump var="#cfhttp#" label="tokenPageCall">
-
         <cfif isJSON(cfhttp.filecontent)>
             <cfset jsonData = deserializeJSON(cfhttp.filecontent)>
             <!--- hopefully, something didn't go wrong and we actually got an auth token --->
@@ -87,12 +83,9 @@
                 <cfhttpparam type="header" name="Authorization" value="Bearer #accessToken#">
                 <cfhttpparam type="FormField" name="token" value="#accessToken#">
             </cfhttp>
-            <cfdump var="#userInfoHTTPcall#" label="userInfoPage">
             <cftry>
                 <cfset userInfoJSON = deserializeJSON(userInfoHTTPcall.filecontent)>
-                <cfdump var="---------------------------------------------------------->>" output="console">
-                <cfdump var="#userInfoJSON#">
-                <cfset this.uuid = userInfoJSON.user_id>
+                <cfset this.uuid = userInfoJSON.sub>
                 <cfcatch type="any">
                     <!--- what we got back was not JSON data, or some protocol error. --->
                     <cfset this.loggedIn = false>
@@ -104,10 +97,8 @@
 
             <cftry>
                 <!--- set local properties.  if you subscribe to more, then you can add them here --->
-                <cfset this.name = userInfoJSON.info.name>
-                <cfset this.email = userInfoJSON.info.email>
-                <cfset this.first_name = userInfoJSON.info.first_name>
-                <cfset this.last_name = userInfoJSON.info.last_name>
+                <cfset this.name = userInfoJSON.name>
+                <cfset this.email = userInfoJSON.email>
                 <cfcatch type="any"><!--- bury any bad params coming from oAuth provider---></cfcatch>
             </cftry>
             <cfreturn true>
